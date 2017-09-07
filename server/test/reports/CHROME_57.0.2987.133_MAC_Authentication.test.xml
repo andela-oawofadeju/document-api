@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="0"
+            failures="1"
+            tests="2">
+
+  <testsuite name="Authentication.test"
+    errors="0" failures="1" hostname="" id="" package="Authentication.test" skipped="1"
+    tests="2" time="5.915" timestamp="Tue, 11 Apr 2017 09:45:33 GMT">
+  
+    <testcase name="Doc Management Title" classname="Authentication.test" time="5.915" assertions="2">
+
+      <failure message="Testing if the page title equals &quot;localhost&quot;.">    at Object.DocManagementTitle [as Doc Management Title] (Authentication.test.js:10:15)
+    at _combinedTickCallback (internal/process/next_tick.js:67:7)</failure>
+
+    
+    </testcase>
+  
+  
+    
+    <testcase
+      name="Login Users" classname="Authentication.test">
+      <skipped />
+    </testcase>
+    
+  
+  </testsuite>
+</testsuites>

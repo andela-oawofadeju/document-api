@@ -1,5 +1,13 @@
 import axios from './index';
 
+/**
+ *
+ *
+ * @export
+ * @param {any} ComposedComponent
+ * @returns {any}
+ */
+
 export default class RolesApi {
 
   static getAll() {
@@ -14,7 +22,6 @@ export default class RolesApi {
     return new Promise((resolve, reject) => {
       axios.get(`/roles/${id}`)
       .then((roles) => {
-        console.log( roles);
         return resolve(roles);
       })
       .catch(error => reject(error));

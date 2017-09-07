@@ -1,5 +1,13 @@
 import axios from './index';
 
+/**
+ *
+ *
+ * @export
+ * @param {any} ComposedComponent
+ * @returns {any}
+ */
+
 export default class UsersApi {
 
   static getAll() {

@@ -1,6 +1,10 @@
+/**
+ * loadRoleSuccess action
+ * @param  {object} roles [description]
+ * @return {object}      [description]
+ */
 import RoleApi from '../utils/RolesApi';
 import * as types from './Types';
-
 
 class Actions {
   static getAllRoles(roles) {
@@ -37,6 +41,11 @@ class Actions {
 }
 
 
+/**
+ * load roles
+ * @return {object} object of roles
+ */
+
 export const loadRoles = () => (dispatch) => {
   RoleApi.getAll()
     .then((roles) => {
@@ -47,6 +56,12 @@ export const loadRoles = () => (dispatch) => {
     });
 };
 
+/**
+ * get existing role
+ * GET /roles/
+ * @param  {object} role role object to be svaed
+ * @return {object}      response from api
+ */
 
 export const getRole = id => (dispatch) => {
   RoleApi.get(id)
@@ -58,6 +73,12 @@ export const getRole = id => (dispatch) => {
   });
 };
 
+/**
+ * create new role
+ * POST /roles/
+ * @param  {object} role role object to be svaed
+ * @return {object}      response from api
+ */
 
 export const createRole = data => (dispatch) => {
   RoleApi.create(data)
@@ -67,6 +88,10 @@ export const createRole = data => (dispatch) => {
     .catch(error => dispatch(error));
 };
 
+/**
+ * delete from state the current selected role
+ * @return {[type]} [description]
+ */
 
 export const deleteRole = id => (dispatch) => {
   RoleApi.delete(id)
@@ -75,6 +100,13 @@ export const deleteRole = id => (dispatch) => {
      })
     .catch(error => dispatch(error));
 };
+
+/**
+ * update role
+ * PUT /roles/:id
+ * @param  {object} role role object to be updated
+ * @return {object}      response from api
+ */
 
 export const updateRole = id => (dispatch) => {
   RoleApi.update(id)

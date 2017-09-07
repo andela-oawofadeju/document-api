@@ -10,7 +10,6 @@ class UserList extends React.Component {
   
   constructor(props) {
     super(props);
-    console.log(this.props)
   }
 
   componentDidMount() {
@@ -21,7 +20,6 @@ class UserList extends React.Component {
     return <User key={user.id} user={user} />
   }
 render() {
-  console.log(this.props)
     return (
       <div>
         <div>
@@ -51,8 +49,14 @@ render() {
   }
 }
 
+/**
+ *
+ *
+ * @param {any} state
+ * @returns {boolean}
+ */
+
 const mapStateToProps = (state) =>  {
-  console.log(state.users);
   return {
     users:  state.users
   }

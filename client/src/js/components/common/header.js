@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 class Header extends React.Component {
 
   render() {
-    console.log(this.props)
     const showLink = () => {
       if(this.props.auth.authenticated) {
         return  <li><Link to="dashboard">Dashboard</Link></li>

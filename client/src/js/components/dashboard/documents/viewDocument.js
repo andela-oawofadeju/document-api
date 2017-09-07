@@ -9,14 +9,10 @@ import Modal from '../../common/modal';
 
 class ViewDocument extends Component {
   componentWillMount() {
-    console.log(this.props)
     this.props.getDoc(this.props.params.id)
   }
 
   renderDocument(document) {
-    console.log(document);
-    console.log(Modal)
-
     return (
       <div>
         <div className="col s12 m12" key={document.id}>
@@ -42,6 +38,12 @@ class ViewDocument extends Component {
   }
 }
 
+/**
+ *
+ *
+ * @param {any} state
+ * @returns {boolean}
+ */
 
 const mapStateToProps = (state, ownProps) => {
   return {

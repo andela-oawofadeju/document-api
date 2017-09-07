@@ -63,7 +63,7 @@ describe('Document Api', function () {
       .set({ 'x-access-token': regularToken })
       .end((err, res) => {
         res.status.should.be.equal(400);
-        res.body.message.should.equal('notNull Violation: content cannot be null');        
+        res.body.message.should.equal('notNull Violation: content cannot be null');
         done();
       });
     });
@@ -95,6 +95,15 @@ describe('Document Api', function () {
         res.body.access.should.equal('private');
         done();
       });
+    });
+    it('should not recreate an exisiting document', (done) => {
+      request.post('/api/documents')
+        .send(documentDetail[2])
+        .set({ 'x-access-token': regularToken })
+        .end((err, res) => {
+          res.status.should.be.equal(409);
+          done();
+        });
     });
   });
 
@@ -145,6 +154,39 @@ describe('Document Api', function () {
         .set({ 'x-access-token': regularToken })
         .end((err, res) => {
           res.status.should.be.equal(200);
+          done();
+        });
+    });
+  });
+
+  describe('Get user\'s private document', () => {
+    it('should return private document belonging to user', (done) => {
+      request.get('/api/documents/2')
+        .set({ 'x-access-token': regularToken })
+        .end((err, res) => {
+          res.status.should.be.equal(200);
+          done();
+        });
+    });
+  });
+
+  describe('Get number of documents with a particular title', () => {
+    it('should return documents with specified title', (done) => {
+      request.get('/api/users/5/documents?q=andela')
+        .set({ 'x-access-token': regularToken })
+        .end((err, res) => {
+          res.status.should.be.equal(200);
+          done();
+        });
+    });
+  });
+
+  describe('Get non-existing document', () => {
+    it('should return not found for non-existing document', (done) => {
+      request.get('/api/documents/1000')
+        .set({ 'x-access-token': regularToken })
+        .end((err, res) => {
+          res.status.should.be.equal(404);
           done();
         });
     });
@@ -221,6 +263,16 @@ describe('Document Api', function () {
           done();
         });
     });
+
+    it('should not retrieve document for existing user', (done) => {
+      request.get('/api/users/1000/documents')
+        .set({ 'x-access-token': regularToken })
+        .end((err, res) => {
+          res.status.should.equal(404);
+          done();
+        });
+    });
+
     it('should set limit for each page', (done) => {
       request.get(`/api/users/${userDetail[2].id}/documents?limit=8`)
         .set({ 'x-access-token': regularToken })
@@ -234,15 +286,26 @@ describe('Document Api', function () {
   describe('Edit Document', () => {
     it('should allow user to edit document', (done) => {
       request.put(`/api/documents/${documentDetail[2].id}`)
-      .send({ title: 'edit', content: 'updating content'})
-      .set({ 'x-acess-token': regularToken })
+      .send({ title: 'edit', content: 'updating content' })
+      .set({ 'x-access-token': regularToken })
       .end((err, res) => {
         res.status.should.equal(200);
         res.body.message.should.equal('Update successful');
       });
       done();
     });
+
+    it('should not allow user to edit non-existing document', (done) => {
+      request.put('/api/documents/1000')
+      .send({ title: 'edit', content: 'updating content' })
+      .set({ 'x-access-token': regularToken })
+      .end((err, res) => {
+        res.status.should.equal(404);
+      });
+      done();
+    });
   });
+
   describe('Delete Document', () => {
     it('should ensure that user can delete document', (done) => {
       request.delete(`/api/documents/${documentDetail[2].id}`)
@@ -250,6 +313,15 @@ describe('Document Api', function () {
       .end((err, res) => {
         res.status.should.equal(200);
         res.body.message.should.equal('Delete successful');
+      });
+      done();
+    });
+
+    it('should ensure that user cannot delete non-existing document', (done) => {
+      request.delete('/api/documents/1000')
+      .set({ 'x-access-token': regularToken })
+      .end((err, res) => {
+        res.status.should.equal(404);
       });
       done();
     });

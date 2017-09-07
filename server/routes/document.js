@@ -32,4 +32,4 @@ router.route('/documents/:id')
   .delete(verifyToken, docCtrl.deleteDocument);
 
 
-module.exports = router;
+export default router;

@@ -32,11 +32,11 @@ export const getRole = (req, res) => {
 
 export const getRoles = (req, res) => {
   db.Role.findAll()
-    .then((roles, err) => {
+    .then((roles) => {
       res.status(200).json(roles);
     })
     .catch(error => res.status(500).json(error));
-}
+};
 
 export const updateRole = (req, res) => {
   if (req.params.id === '1') {
@@ -53,10 +53,8 @@ export const updateRole = (req, res) => {
       }
       return foundRole
         .update({ title: req.body.title })
-        .then(role => res.status(200).json({
-          message: 'Role updated successfully'
-        }))
-        .catch(error => res.status(400).json(error));
+        .then(role => res.status(200)
+          .json({ message: 'Role updated successfully' }));
     });
 };
 

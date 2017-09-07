@@ -11,7 +11,6 @@ constructor(props) {
     super(props);
   }
   render() {
-    console.log(this.props);
     return (
           <tr>
             <td>{this.props.user.username}</td>
@@ -23,7 +22,7 @@ constructor(props) {
                   <Modal
                     header='Modal Header'
                     trigger={
-                      <a href="#"> <i className="material-icons prefix">mode_edit</i></a>
+                      <a href="#"> <i className="icon-change material-icons prefix">mode_edit</i></a>
                     }>
                     edit
                   </Modal>

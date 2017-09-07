@@ -3,12 +3,14 @@ import Login from './login';
 import Register from './register'
 import {connect} from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { isAuthenticated } from '../../utils/helpers';
+
 import * as authAction from '../../actions/Authentication';
 
 class Auth extends React.Component {
   componentWillMount() {
-    if(!this.props.authenticated) {
-      this.router.push('/dashboard')
+    if(isAuthenticated()) {
+      this.props.router.push('/dashboard')
     }
   }
   render() {

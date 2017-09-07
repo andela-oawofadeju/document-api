@@ -1,6 +1,12 @@
+/**
+ * Documents action, disptach action and
+ * action types of each action to the reducer
+ */
+
 import DocumentApi from '../utils/DocumentsApi';
 import * as types from './Types';
 
+import { getPayload } from '../utils/helpers';
 
 class Actions {
   static getAllDocuments(documents) {
@@ -36,17 +42,31 @@ class Actions {
   }
 }
 
+/**
+ *
+ * loaddocumentsuccess
+ * @export
+ * @param {any} documents  returned documents from api call
+ * @returns {any} action and action types
+ */
 
 export const loadDocuments = () => (dispatch) => {
-  DocumentApi.getAll()
+  const { id } = getPayload();
+  DocumentApi.getAll(id)
     .then((documents) => {
-      console.log(documents);
       dispatch(Actions.getAllDocuments(documents.rows));
     })
-    .catch((error) => {
-      throw (error);
-    });
+    .catch((error) => { throw (error); });
 };
+
+
+/**
+ * get documentsfrom database
+ * by calling api route /documents/:id
+ *
+ * @export
+ * @returns {object} documents
+ */
 
 export const getDocument = id => (dispatch) => {
   DocumentApi.get(id)
@@ -58,6 +78,13 @@ export const getDocument = id => (dispatch) => {
   });
 };
 
+/**
+ * create new document success action
+ *
+ * @export
+ * @param {any} document newly create document reponse from api post
+ * @returns {any} action and action types
+ */
 
 export const createDocument = data => (dispatch) => {
   DocumentApi.create(data)
@@ -67,28 +94,64 @@ export const createDocument = data => (dispatch) => {
     .catch(error => dispatch(error));
 };
 
+/**
+ * delete from state the currently selected document
+ * @return {[type]} [description]
+ */
 
 export const deleteDocument = id => (dispatch) => {
   DocumentApi.delete(id)
-     .then((res) => {
-       dispatch(Actions.deleteDocument(id));
-     })
-    .catch(error => dispatch(error));
+    .then(() => {
+      dispatch(Actions.deleteDocument(id));
+    })
+  .catch(error => dispatch(error));
 };
+
+/**
+ * update documents to database using PUT api route /documents/:id
+ *
+ * @export
+ * @param {any} document
+ * @returns {object} documents
+ */
 
 export const updateDocument = updateData => (dispatch) => {
   DocumentApi.update(updateData)
-     .then((res) => {
-       dispatch(Actions.updateDocument(res.updatedDocument));
-     })
-    .catch(error => dispatch(error));
+    .then((res) => {
+      dispatch(Actions.updateDocument(res.updatedDocument));
+    })
+  .catch(error => dispatch(error));
 };
 
+/**
+ * search documents from database using GET api route /documents/:id
+ *
+ * @export
+ * @param {any} document
+ * @returns {object} documents
+ */
 
 export const searchDocument = (id, query) => (dispatch) => {
   DocumentApi.search(id, query)
   .then((res) => {
-    dispatch(Actions.getAllDocuments(res.docs));
+    dispatch(Actions.getAllDocuments(res.rows));
+  })
+  .catch(error => dispatch(error));
+};
+
+
+export const getPrivateDocuments = id => (dispatch) => {
+  DocumentApi.getPrivate(id)
+  .then((res) => {
+    dispatch(Actions.getAllDocuments(res.rows));
+  })
+  .catch(error => dispatch(error));
+};
+
+export const getPublicDocuments = id => (dispatch) =>{
+  DocumentApi.getPublic(id)
+  .then((res) => {
+    dispatch(Actions.getAllDocuments(res));
   })
   .catch(error => dispatch(error));
 };

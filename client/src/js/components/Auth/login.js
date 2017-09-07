@@ -12,8 +12,8 @@ class Login extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: '',
-      password: ''
+      LoginEmail: '',
+      LoginPassword: ''
     };
 
     this.onChange = this.onChange.bind(this);
@@ -45,23 +45,23 @@ class Login extends React.Component {
                 { error()}
                 <div className="row">
                   <TextInput
-                    id="emil"
+                    id="LoginEmail"
                     type="email" 
                     value={this.state.username}
                     className="validate" 
-                    name="email" 
-                    label="email"
+                    name="LoginEmail" 
+                    label="LoginEmail"
                     onChange={this.onChange} /> 
                 </div>
 
                 <div className="row">
                   <TextInput 
-                    id="password" 
+                    id="LoginPassword" 
                     type="password" 
-                    value={this.state.password}
+                    value={this.state.LoginPassword}
                     className="validate" 
-                    name="password"
-                    label="password"
+                    name="LoginPassword"
+                    label="LoginPassword"
                     onChange={this.onChange}/>
                 </div>
                 <div className="row">

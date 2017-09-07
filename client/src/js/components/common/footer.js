@@ -8,10 +8,10 @@ class Footer extends React.Component {
         <div className="container">
           <div className="row">
             <div className="col l6 m6 s12">
-              <p className="float-left">&copyright 2017 Doc-api Project</p>
+              <p className="float-left">Copyright (c) 2017 Olayemi Awofadeju</p><br />
             </div>
             <div className="col l6 m6 s12">
-              <p>Checkpoint</p>
+              <p>Checkpoint Project</p>
             </div>
           </div>
         </div>

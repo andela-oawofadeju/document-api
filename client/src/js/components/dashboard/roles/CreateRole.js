@@ -17,7 +17,6 @@ class CreateRole extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
   onChange(e) {
-    console.log(e.target.value);
     this.setState({
       [ e.target.name ] : e.target.value
     })
@@ -65,12 +64,4 @@ const mapDispatchToProps = (dispatch) => {
     actions: bindActionCreators(roleAction, dispatch)
   }
 }
-
-// const mapStateToProps = (state) => {
-//   console.log(state.roles);
-//   return {
-//     data: 'hello'
-//   }
-// }
-
 export default connect(null, mapDispatchToProps)(CreateRole);

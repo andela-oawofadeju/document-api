@@ -15,7 +15,7 @@ class CreateDocument extends React.Component {
       status: 'create',
       docId: ''
     };
-
+    
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -23,7 +23,6 @@ class CreateDocument extends React.Component {
     this.setState({
       [ e.target.name ] : e.target.value
     })
-    
   }
 
   componentDidMount() {

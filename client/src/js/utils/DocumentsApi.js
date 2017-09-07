@@ -1,10 +1,18 @@
 import axios from './index';
 
+/**
+ *
+ *
+ * @export
+ * @param {any} ComposedComponent
+ * @returns {any}
+ */
+
 export default class Document {
 
-  static getAll() {
+  static getAll(id) {
     return new Promise((resolve, reject) => {
-      axios.get('/documents')
+      axios.get(`/users/${id}/documents`)
       .then(res => resolve(res.data))
       .catch(error => reject(error));
     });
@@ -28,12 +36,11 @@ export default class Document {
     });
   }
 
-
   static delete(id) {
     return new Promise((resolve, reject) => {
       axios.delete(`/documents/${id}`)
       .then(res => resolve(res.data))
-      .catch((error) => reject(error));
+      .catch(error => reject(error));
     });
   }
 
@@ -52,4 +59,18 @@ export default class Document {
       .catch(error => reject(error));
     });
   }
-};
+  static getPrivate(id){
+    return new Promise((resolve, reject) => {
+      axios.get('/documents/private/')
+      .then(res => resolve(res.data))
+      .catch(error => reject(error));
+    });
+  }
+  static getPublic(id){
+    return new Promise((resolve, reject) => {
+      axios.get('/documents/public')
+      .then(res => resolve(res.data))
+      .catch(error => reject(error));
+    });
+  }
+}

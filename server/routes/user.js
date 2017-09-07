@@ -17,6 +17,9 @@ router.route('/users')
 router.route('/search/users')
 .get(verifyToken, verifyAdmin, userCtrl.searchUser);
 
+router.route('/users/role/:id')
+.put(verifyToken, verifyAdmin, userCtrl.updateUserRole);
+
 router.route('/users/:id')
   .get(verifyToken, userCtrl.getUser)
   .put(verifyToken, userCtrl.updateUser)

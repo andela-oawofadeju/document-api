@@ -20,10 +20,10 @@ export const createDocument = (req, res) => {
     return res.status(409)
     .json({ message: `title: ${newDoc.title} already exist` });
   }
-});
   db.Document.create(newDoc)
     .then(document => res.status(201).json(document))
     .catch(error => res.status(400).json(error));
+});
 };
 
 export const getDocument = (req, res) => {
@@ -38,15 +38,12 @@ export const getDocument = (req, res) => {
       }
       res.status(200)
         .json(foundDoc);
-    })
-    .catch(error => res.status(500)
-      .json({ message: 'An error occured', error }));
+    });
 };
 
 export const countUsersDoc = (req) => {
   let rawQuery =
       `SELECT COUNT (*) FROM "Documents" INNER JOIN "Users" ON "Documents"."ownerId" = "Users"."id" WHERE ("Users"."roleId" = ${req.decoded.roleId} AND "Documents"."access" = 'role') OR ("Documents"."ownerId" = ${req.params.id})`;
-
   if (req.query.q) {
     rawQuery =
       `SELECT COUNT (*) FROM "Documents" INNER JOIN "Users" ON "Documents"."ownerId" = "Users"."id" WHERE (("Users"."roleId" = ${req.decoded.roleId} AND "Documents"."access" = 'role') OR ("Documents"."ownerId" = ${req.params.id})) AND (( "Documents"."title" ILIKE '%${req.query.q}%' ) OR ( "Documents"."content" ILIKE '%${req.query.q}%'))`;
@@ -62,7 +59,7 @@ export const getUsersDocument = (req, res) => {
     type: db.sequelize.QueryTypes.SELECT
   })
       .then((docs) => {
-        if (!docs) {
+        if (!docs.length) {
           return res.status(404)
             .send({ message: 'No document found' });
         }
@@ -74,10 +71,8 @@ export const getUsersDocument = (req, res) => {
             meta.pageSize = query.limit;
             meta.pageCount = Math.floor(meta.totalCount / query.limit) + 1;
             meta.currentPage = Math.floor(query.offset / query.limit) + 1;
-            res.status(200).send({ paginationMeta: meta, docs });
+            res.status(200).send({ paginationMeta: meta, rows: docs });
           });
-      }).catch((err) => {
-        res.status(400).send(err.message);
       });
 };
 
@@ -93,8 +88,7 @@ export const getPublicDocument = (req, res) => {
             .json({ message: 'No document found' });
         }
         res.status(200).json(document);
-      })
-  .catch(err => res.status(400).json(err));
+      });
 };
 
 
@@ -175,8 +169,7 @@ export const viewPrivateDocuments = (req, res) => {
       ]
     }
   })
-    .then(privateDoc => res.status(200).json(privateDoc))
-    .catch(err => res.status(500).json(err));
+    .then(privateDoc => res.status(200).json(privateDoc));
 };
 
 
@@ -185,13 +178,12 @@ export const editDocument = (req, res) => {
     .then((document) => {
       if (!document) {
         return res.status(404)
-          .json({ message: `documentid: ${req.body.id} does not exist` });
+          .json({ message: `documentid: ${req.params.id} does not exist` });
       }
       document.update(req.body)
         .then((updatedDocument) => {
           res.status(200).json({ message: 'Update successful', updatedDocument });
-        })
-.catch(err => res.status(400).json(err));
+        });
     });
 };
 
@@ -205,6 +197,5 @@ export const deleteDocument = (req, res) => {
       }
       document.destroy();
       res.status(200).json({ message: 'Delete successful' });
-    })
-.catch(err => res.status(400).json(err));
+    });
 };

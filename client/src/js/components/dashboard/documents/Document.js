@@ -53,11 +53,12 @@ class Document extends React.Component {
   }
 }
 
-// const mapStateToProps = (state, ownProps) => {
-//   return {
-//     documents: state.documents
-//   }
-// }
+/**
+ *
+ *
+ * @param {any} state
+ * @returns {boolean}
+ */
 
 const mapDispatchToProps = (dispatch) => {
   return {

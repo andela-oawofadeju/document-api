@@ -11,8 +11,6 @@ export default (state = [], action) => {
     case types.DELETE_DOCUMENT:
       return state.filter(doc => action.id !== doc.id);
     case types.UPDATE_DOCUMENT:
-      console.log(state, 'new update state');
-      console.log(action.updatedDocument, 'new real state');
       return state.map((doc) => {
         if (doc.id === action.updatedDocument.id) {
           doc = action.updatedDocument;

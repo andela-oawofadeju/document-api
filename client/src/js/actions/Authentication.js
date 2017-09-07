@@ -8,8 +8,17 @@ import {
 import axios from '../utils/index';
 import { setToken, removeToken } from '../utils/helpers';
 
-export const signInUser = ({ email, password }) => (dispatch) => {
-  axios.post('/users/login', { email, password })
+/**
+ *  login users action dispatch on success authentication
+ *
+ * @export
+ * @param {any} token
+ * @returns {Object} json object
+ */
+
+
+export const signInUser = ({ LoginEmail, LoginPassword }) => (dispatch) => {
+  axios.post('/users/login', { email: LoginEmail, password: LoginPassword })
     .then((res) => {
       setToken(res.data.token, res.data.payload);
 
@@ -22,6 +31,13 @@ export const signInUser = ({ email, password }) => (dispatch) => {
     });
 };
 
+/**
+ *
+ * logout user and clear token from localStorage
+ * @export
+ * @returns {any} data
+ */
+
 export const logoutUser = () => (dispatch) => {
   axios.post('/users/logout')
     .then(() => {
@@ -31,13 +47,19 @@ export const logoutUser = () => (dispatch) => {
     });
 };
 
+/**
+ * action dispatched on register new user success
+ *
+ * @export
+ * @param {any} user
+ * @returns {Object} json object
+ */
 
 export const registerUser =
   ({ firstname, lastname, username, email, password }) => (dispatch) => {
     axios.post('/users', { firstname, lastname, username, email, password })
     .then((res) => {
-      console.log(res.data);
-      setToken(res.data.token);
+      setToken(res.data.token, res.data.payload);
 
       dispatch({ type: AUTH_USER });
 

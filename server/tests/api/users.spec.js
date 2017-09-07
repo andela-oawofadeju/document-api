@@ -38,7 +38,7 @@ describe('Users', () => {
         .send(defaultUser[0])
         .end((err, res) => {
           regularToken = res.body.token;
-          res.status.should.be.equal(201);
+          res.status.should.equal(201);
           res.body.should.have.property('token');
           done();
         });
@@ -53,9 +53,33 @@ describe('Users', () => {
       request.post('/api/users')
       .send(invalid)
       .end((err, res) => {
-        res.status.should.be.equal(400);
+        res.status.should.equal(400);
         done();
       });
+    });
+    it('should not allow creation of admin user', (done) => {
+      request.post('/api/users')
+        .send(userDetail[0])
+        .end((err, res) => {
+          res.status.should.equal(403);
+          done();
+        });
+    });
+    it('should not allow a user to register with an existing email', (done) => {
+      const existEmailUser = {
+        email: defaultUser[0].email,
+        password: 1234567890,
+        username: 'new user',
+        firstname: 'new first name',
+        lastname: 'new last name'
+      };
+      request.post('/api/users')
+        .send(existEmailUser)
+        .end((err, res) => {
+          res.status.should.equal(409);
+          res.body.message.should.equal('Email already exists');
+          done();
+        });
     });
   });
 
@@ -64,7 +88,17 @@ describe('Users', () => {
       request.get(`/api/users/${userDetail[2].id}`)
         .set({ 'x-access-token': regularToken })
         .end((err, res) => {
-          res.status.should.be.equal(200);
+          res.status.should.equal(200);
+          done();
+        });
+    });
+
+    it('should returns user not found for invalid user id', (done) => {
+      request.get('/api/users/888')
+        .set({ 'x-access-token': regularToken })
+        .end((err, res) => {
+          res.status.should.be.equal(404);
+          res.body.message.should.equal('User not found');
           done();
         });
     });
@@ -75,7 +109,7 @@ describe('Users', () => {
       request.get('/api/users')
         .set({ 'x-access-token': adminToken })
         .end((err, res) => {
-          res.status.should.be.equal(200);
+          res.status.should.equal(200);
           done();
         });
     });
@@ -98,7 +132,7 @@ describe('Users', () => {
       request.post('/api/users/login')
         .send(defaultUser[0])
         .end((err, res) => {
-          res.status.should.be.equal(200);
+          res.status.should.equal(200);
           res.body.should.have.property('token');
           done();
         });
@@ -107,7 +141,7 @@ describe('Users', () => {
       request.post('/api/users/login')
         .send({ email: 'helo01', password: '12' })
         .end((err, res) => {
-          res.status.should.be.equal(400);
+          res.status.should.equal(400);
           res.body.message.should.equal('Invalid username or password');
           done();
         });
@@ -119,7 +153,7 @@ describe('Users', () => {
       request.post('/api/users/logout')
         .send(userDetail[2])
         .end((err, res) => {
-          res.status.should.be.equal(200);
+          res.status.should.equal(200);
           done();
         });
     });
@@ -130,9 +164,8 @@ describe('Users', () => {
       request.get('/api/search/users/?q=ti')
         .set({ 'x-access-token': adminToken })
         .end((err, res) => {
-          console.log(res.body);
           res.body.should.have.lengthOf(2);
-          res.status.should.be.equal(200);
+          res.status.should.equal(200);
           done();
         });
     });
@@ -147,10 +180,20 @@ describe('Users', () => {
       })
       .set({ 'x-access-token': regularToken })
       .end((err, res) => {
-        res.status.should.be.equal(200);
+        res.status.should.equal(200);
         res.body.message.should.equal(`User with id ${defaultUser[0].id} updated!`);
         done();
       });
+    });
+    it(`should not allow user's role id to be duplicated`, (done) => {
+      request.put(`/api/users/role/${defaultUser[0].id}`)
+        .send({ roleId: 2 })
+        .set({ 'x-access-token': adminToken })
+        .end((err, res) => {
+          res.status.should.equal(400);
+          res.body.message.should.equal('Duplicated roles');
+          done();
+        });
     });
   });
 
@@ -159,7 +202,7 @@ describe('Users', () => {
       request.delete(`/api/users/${defaultUser[0].id}`)
         .set({ 'x-access-token': adminToken })
         .end((err, res) => {
-          res.status.should.be.equal(200);
+          res.status.should.equal(200);
           res.body.message.should.equal(`User with id ${defaultUser[0].id} deleted`);
           done();
         });
@@ -167,7 +210,7 @@ describe('Users', () => {
     it('should disallow a regular user from deleting an existing user', (done) => {
       request.delete(`/api/users/${defaultUser[0].id}`)
         .end((err, res) => {
-          res.status.should.be.equal(401);
+          res.status.should.equal(401);
           done();
         });
     });

@@ -16,22 +16,10 @@ class Roles extends React.Component {
       roles: [],
     }
     this.renderRole = this.renderRole.bind(this);
-    // this.onClick = this.onClick.bind(this);
   }
-  
-
-  // componentWillMount() {
-  //   this.props.loadDocuments()
-  //   console.log(this.state);
-  // }
-
-  //   onClick(e) {
-  //     this.setState({ showCreate: true });
-  //   }
 
     componentDidMount() {
       this.props.loadRoles();
-      console.log(this.state);
     }
 
   renderRole(role) {
@@ -61,8 +49,14 @@ class Roles extends React.Component {
   }
 }
 
+/**
+ *
+ *
+ * @param {any} state
+ * @returns {boolean}
+ */
+
 const mapStateToProps = (state, ownProps) => {
-  console.log(state);
   const roles = state.roles || [];
   return {
     roles

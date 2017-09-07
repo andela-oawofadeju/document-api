@@ -34,19 +34,4 @@ class Role extends React.Component {
     );
   }
 }
-
-// const mapStateToProps = (state, ownProps) => {
-//   return {
-//     roles: state.roles
-//   }
-// }
-
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     actions: bindActionCreators(roleAction, dispatch)
-//   }
-// }
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Role);
-
 export default  Role

@@ -36,6 +36,12 @@ class Actions {
   }
 }
 
+/**
+ * loadUserSuccess,
+ * action dispatched on getting a user records from db
+ * @param  {object} users user response fron api call in the thunk
+ * @return {object}      reponse dispatched to reducer
+ */
 
 export const loadUsers = () => (dispatch) => {
   UserApi.getAll()
@@ -59,6 +65,13 @@ export const getUser = id => (dispatch) => {
   });
 };
 
+/**
+ * action dispatched on creating new user success
+ *
+ * @export
+ * @param {any} user
+ * @returns {Object} json object
+ */
 
 export const createUser = data => (dispatch) => {
   UserApi.create(data)

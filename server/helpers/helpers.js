@@ -13,6 +13,7 @@ import model from '../models';
 
 
 export const checkRoleId = (req) => {
+  console.log(req.body.roleId);
   return req.body.roleId !== 2;
 }
 

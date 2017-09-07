@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     title: {
       type: DataTypes.STRING,
       unique: {
-        msg: 'Role title already exist'        
+        msg: 'Role title already exist'
       },
       isEmpty: {
         msg: 'This field cannot be empty'
